@@ -18,7 +18,7 @@ class TasksController < ApplicationController
       flash[:success] = 'タスクを更新しました'
       redirect_to @task
     else
-      flash.now[:error] = 'タスクの更新に失敗しました'
+      flash.now[:danger] = 'タスクの更新に失敗しました'
       render :edit
     end
   end
@@ -34,7 +34,7 @@ class TasksController < ApplicationController
       flash[:success] = 'タスクを登録しました'
       redirect_to @task
     else
-      flash.now[:error] = 'タスクの登録に失敗しました'
+      flash.now[:danger] = 'タスクの登録に失敗しました'
       render :edit
     end
   end
