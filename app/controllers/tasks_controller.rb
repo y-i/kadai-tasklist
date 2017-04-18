@@ -1,6 +1,9 @@
 class TasksController < ApplicationController
+  before_action :require_user_logged_in
+  before_action :correct_user, only: [:show, :edit, :update, :destroy]
+
   def index
-    @tasks = Task.all
+    @tasks = current_user.tasks.all
   end
   def show
     @task = Task.find(params[:id])
@@ -29,7 +32,7 @@ class TasksController < ApplicationController
     redirect_to tasks_url
   end
   def create
-    @task = Task.new(task_params)
+    @task = current_user.tasks.build(task_params)
     if @task.save
       flash[:success] = 'タスクを登録しました'
       redirect_to @task
@@ -40,6 +43,13 @@ class TasksController < ApplicationController
   end
 
   private
+
+  def correct_user
+    @task = current_user.tasks.find_by(id: params[:id])
+    unless @task
+      redirect_to root_path
+    end
+  end
 
   # Strong Parameter
   def task_params
